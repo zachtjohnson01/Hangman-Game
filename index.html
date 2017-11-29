@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Guess a letter</h1>
+	<div id="game">
+
+	</div>
+	
+
+	<script type="text/javascript">
+	// Whenever a key is pressed, alert "pressed a button"
+		var wins = [];
+		var losses = [];
+		var ties = 0;
+		document.onkeyup = function(event) {
+			console.log(event);
+
+			var playerChoice = event.key; //holds the key entered...
+			var choices = ["s","w","a","n","s","o","n"];
+
+
+    			for (var i=0; i < 7; i++) {
+    				if (playerChoice === choices[i]) {
+    					wins.push(playerChoice);
+    				}	else if (playerChoice !== choices[i]) {
+    					losses.push(playerChoice);
+    				}
+
+    			document.getElementById("game").innerHTML = `
+				<h3>You Chose: ${playerChoice}</h3>
+				<h3>Correct Guesses ${wins}</h3>
+				<hr />
+				<h3>Incorrect Guesses ${losses}</h3>
+
+			`;
+      		}
+
+		}
+	</script>
+</body>
+</html>
