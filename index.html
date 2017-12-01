@@ -16,30 +16,47 @@
 		var wins = [];
 		var losses = [];
 		var ties = 0;
+		var word = ["Swanson"];
+		var blank = Array(word[0].length+1).join("_").split("")
+		var word_split = word[0].split("");
+
 		document.onkeyup = function(event) {
 			console.log(event);
 
 			var playerChoice = event.key; //holds the key entered...
-			var choices = ["s","w","a","n","s","o","n"];
 
 
-    			for (var i=0; i < 7; i++) {
-    				if (playerChoice === choices[i]) {
-    					wins.push(playerChoice);
-    				}	else if (playerChoice !== choices[i]) {
-    					losses.push(playerChoice);
-    				}
+			// for (var i=0; i < word.length; i++) {
+			// 	if (playerChoice.toUpperCase() === word[0][i].toUpperCase()) {
+			// 		wins.push(playerChoice);
+			// 		console.log(wins)
+			// 	}
+			// }
+				
+			for (var i=0; i < word[0].length; i++) {
+				if (word[0][i].toUpperCase()===playerChoice.toUpperCase()) {
+					blank[i] = word[0][i];
+					wins.push(playerChoice);
+					console.log(blank);
+					console.log(wins);
+				}
+			}
+
+			// if (word[0][i].toUpperCase()!== playerChoice.toUpperCase()) {
+			// 	losses.push(playerChoice);
+			// }
 
     			document.getElementById("game").innerHTML = `
 				<h3>You Chose: ${playerChoice}</h3>
 				<h3>Correct Guesses ${wins}</h3>
 				<hr />
 				<h3>Incorrect Guesses ${losses}</h3>
+				<h2>Word ${word}</h2>
+				<h2>Correct Guesses ${blank}</h2>
 
 			`;
-      		}
+      	}
 
-		}
 	</script>
 </body>
 </html>
