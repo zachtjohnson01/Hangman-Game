@@ -12,7 +12,10 @@
 	<h1>Guess a letter</h1>
 	<p id="answer"></p>
 	<p id="counter"></p>
-	<p id="stat"></p>
+	<p id="correct"></p>
+    <p id="incorrect"></p>
+    <p id="guesses"></p>
+    <p id="alphabet"></p>
 
 	<script>
 
@@ -21,11 +24,13 @@
 
     var randomWordArr = ["Pawnee","Knope","Swanson","Sebastian","Ludgate","Wiatt","Haverford"];
     var randomWord = randomWordArr[Math.floor(Math.random() * randomWordArr.length)];
-    var s;
+
     var count = 0;
     var correct = 0;
     var incorrect = 0;
     var answerArray = [];
+    var guesses = [];
+    var s
 
 
 	// FUNCTIONS
@@ -33,40 +38,48 @@
 
     function startUp() {
 
+        // Create array of underscores with same length as randomWord.
     	for (var i = 0; i < randomWord.length; i++) {
     		answerArray[i] = "_";
     	}
 
-    	//put them in a string
+    	// Put answerArray in a string.
     	s = answerArray.join(" ");
     	document.getElementById("answer").innerHTML = s;
     }
 
     document.onkeyup = function Letter(event) {
 
-    	var letter = event.key;
+    	// Store the key in a variable.
+        var letter = event.key;
 
     	if(/[a-zA-Z0-9-_ ]/.test(String.fromCharCode(event.keyCode))) {
     		for (var i = 0; i < randomWord.length; i++) {
     			if (randomWord[i] === letter) {
     				answerArray[i] = letter;
-    			}
-    		}
-    		count++;
-    		document.getElementById("counter").innerHTML = "Number of guesses: " + count;
-    		
-    		// document.getElementById("counter").innerHTML = "Incorrect guesses: " + incorrect;
-    		document.getElementById("answer").innerHTML = answerArray.join(" ");
-    	}
-    	if(randomWord[i] === letter) {
-    		correct++;
-    		document.getElementById("stat").innerHTML = "Correct guesses: " + correct;
-    	}
-    	// if(count>6) {
-    	// 	document.getElementById("stat").innerHTML = "-------------hung------------";
-    	// }
-    }
+                    correct ++; 
+                    document.getElementById("correct").innerHTML = "Correct guesses: " + correct;
 
+                }
+    		}
+            // Add to guess count.
+            count++;
+
+            // Display updated number of guesses.
+            document.getElementById("counter").innerHTML = "Number of guesses: " + count;
+
+            // Subtract correct guesses by the count to output incorrect guess count.
+            document.getElementById("incorrect").innerHTML = "Incorrect guesses: " + (count - correct + 1);
+
+            // Display array of guessed letters.
+            guesses.push(letter);
+            document.getElementById("guesses").innerHTML = "Guesses: " + guesses;
+
+            // Display letters after guessed correctly.
+    		document.getElementById("answer").innerHTML = answerArray.join(" ");
+        }
+
+    }
 
 
 	</script>
