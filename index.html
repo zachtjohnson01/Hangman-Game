@@ -4,59 +4,72 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 </head>
-<body>
+
+
+<body onload="startUp()">
+
+
 	<h1>Guess a letter</h1>
-	<div id="game">
+	<p id="answer"></p>
+	<p id="counter"></p>
+	<p id="stat"></p>
 
-	</div>
-	
+	<script>
 
-	<script type="text/javascript">
-	// Whenever a key is pressed, alert "pressed a button"
-		var wins = [];
-		var losses = [];
-		var ties = 0;
-		var word = ["Swanson"];
-		var blank = Array(word[0].length+1).join("_").split("")
-		var word_split = word[0].split("");
+    // VARIABLES
+    // ==========================================================================
 
-		document.onkeyup = function(event) {
-			console.log(event);
-
-			var playerChoice = event.key; //holds the key entered...
+    var randomWordArr = ["Pawnee","Knope","Swanson","Sebastian","Ludgate","Wiatt","Haverford"];
+    var randomWord = randomWordArr[Math.floor(Math.random() * randomWordArr.length)];
+    var s;
+    var count = 0;
+    var correct = 0;
+    var incorrect = 0;
+    var answerArray = [];
 
 
-			// for (var i=0; i < word.length; i++) {
-			// 	if (playerChoice.toUpperCase() === word[0][i].toUpperCase()) {
-			// 		wins.push(playerChoice);
-			// 		console.log(wins)
-			// 	}
-			// }
-				
-			for (var i=0; i < word[0].length; i++) {
-				if (word[0][i].toUpperCase()===playerChoice.toUpperCase()) {
-					blank[i] = word[0][i];
-					wins.push(playerChoice);
-					console.log(blank);
-					console.log(wins);
-				}
-			}
+	// FUNCTIONS
+    // ==========================================================================
 
-			// if (word[0][i].toUpperCase()!== playerChoice.toUpperCase()) {
-			// 	losses.push(playerChoice);
-			// }
+    function startUp() {
 
-    			document.getElementById("game").innerHTML = `
-				<h3>You Chose: ${playerChoice}</h3>
-				<h3>Correct Guesses ${wins}</h3>
-				<hr />
-				<h3>Incorrect Guesses ${losses}</h3>
-				<h2>Word ${word}</h2>
-				<h2>Correct Guesses ${blank}</h2>
+    	for (var i = 0; i < randomWord.length; i++) {
+    		answerArray[i] = "_";
+    	}
 
-			`;
-      	}
+    	//put them in a string
+    	s = answerArray.join(" ");
+    	document.getElementById("answer").innerHTML = s;
+    }
+
+    document.onkeyup = function Letter(event) {
+
+    	var letter = event.key;
+
+    	if(/[a-zA-Z0-9-_ ]/.test(String.fromCharCode(event.keyCode))) {
+    		for (var i = 0; i < randomWord.length; i++) {
+    			if (randomWord[i] === letter) {
+    				answerArray[i] = letter;
+    			}
+    		}
+    		count++;
+    		document.getElementById("counter").innerHTML = "Number of guesses: " + count;
+    		
+    		// document.getElementById("counter").innerHTML = "Incorrect guesses: " + incorrect;
+    		document.getElementById("answer").innerHTML = answerArray.join(" ");
+    	}
+    	if(randomWord[i] === letter) {
+    		correct++;
+    		document.getElementById("stat").innerHTML = "Correct guesses: " + correct;
+    	}
+    	// if(count>6) {
+    	// 	document.getElementById("stat").innerHTML = "-------------hung------------";
+    	// }
+    }
+
+
 
 	</script>
+	
 </body>
 </html>
