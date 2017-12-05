@@ -1,88 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
 
 
 <body onload="startUp()">
 
 
-	<h1>Guess a letter</h1>
-	<p id="answer"></p>
-	<p id="counter"></p>
-	<p id="correct"></p>
+    <h1>Guess a letter</h1>
+    <p id="game"></p>
+    <p id="counter"></p>
+    <p id="correct"></p>
     <p id="incorrect"></p>
     <p id="guesses"></p>
     <p id="alphabet"></p>
 
-	<script>
+    <script>
 
     // VARIABLES
     // ==========================================================================
 
-    var randomWordArr = ["Pawnee","Knope","Swanson","Sebastian","Ludgate","Wiatt","Haverford"];
-    var randomWord = randomWordArr[Math.floor(Math.random() * randomWordArr.length)];
+    var game = ["Pawnee","Knope","Swanson","Sebastian","Ludgate","Wiatt","Haverford"];
+    var choice = (Math.floor(Math.random() * game.length));
+    var answer = game[choice];
+    var myLength = answer.length;
+    var display = [myLength];
+    var win = myLength; 
+    var letters = answer.split('');
+    var attemptsLeft = 10;
+    var userLetter = "";
 
-    var count = 0;
-    var correct = 0;
-    var incorrect = 0;
-    var answerArray = [];
-    var guesses = [];
-    var s
 
-
-	// FUNCTIONS
+    // FUNCTIONS
     // ==========================================================================
 
     function startUp() {
 
-        // Create array of underscores with same length as randomWord.
-    	for (var i = 0; i < randomWord.length; i++) {
-    		answerArray[i] = "_";
-    	}
-
-    	// Put answerArray in a string.
-    	s = answerArray.join(" ");
-    	document.getElementById("answer").innerHTML = s;
+        // Create array of underscores with same length as game.
+        for (var i = 0; i < answer.length; i++) {
+            display[i] = "_";
+        }
+        document.getElementById("game").innerHTML = display.join(" ");
     }
 
     document.onkeyup = function Letter(event) {
 
-    	// Store the key in a variable.
+
         var letter = event.key;
 
-    	if(/[a-zA-Z0-9-_ ]/.test(String.fromCharCode(event.keyCode))) {
-    		for (var i = 0; i < randomWord.length; i++) {
-    			if (randomWord[i] === letter) {
-    				answerArray[i] = letter;
-                    correct ++; 
-                    document.getElementById("correct").innerHTML = "Correct guesses: " + correct;
-
+        if(/[a-zA-Z0-9-_ ]/.test(String.fromCharCode(event.keyCode))) {
+            for (var i = 0; i < answer.length; i++) {              
+                if (letter === letters[i]) {
+                    display[i] = letter;
+                    win--;
                 }
-    		}
-            // Add to guess count.
-            count++;
+            }
 
-            // Display updated number of guesses.
-            document.getElementById("counter").innerHTML = "Number of guesses: " + count;
+            document.getElementById("game").innerHTML = display.join(" ");
+            attemptsLeft--;
 
-            // Subtract correct guesses by the count to output incorrect guess count.
-            document.getElementById("incorrect").innerHTML = "Incorrect guesses: " + (count - correct + 1);
-
-            // Display array of guessed letters.
-            guesses.push(letter);
-            document.getElementById("guesses").innerHTML = "Guesses: " + guesses;
-
-            // Display letters after guessed correctly.
-    		document.getElementById("answer").innerHTML = answerArray.join(" ");
+            if (win < 1) {
+                document.getElementById("guesses").innerHTML = "YOU WIN!!";
+            } else if (attemptsLeft < 1) {
+                document.getElementById("guesses").innerHTML = "YOU LOSE!!";
+            } else {
+                document.getElementById("guesses").innerHTML = "You have " + attemptsLeft + " guesses left";
+            }
         }
 
     }
 
 
-	</script>
-	
+    </script>
+    
 </body>
 </html>
